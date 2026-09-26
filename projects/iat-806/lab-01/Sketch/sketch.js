@@ -2,7 +2,8 @@
 // Delete all of this and write your own.
 
 function setup() {
-  createCanvas(500, 500);
+  const canvas = createCanvas(500, 500);
+  canvas.parent("sketch-holder");
 }
 
 function draw() {
