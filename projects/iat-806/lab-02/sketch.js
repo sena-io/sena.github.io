@@ -5,8 +5,8 @@ let speedY = 5;
 let size = 100;
 let sizeIncrement = 1;
 let radius = size / 2;
-let rightColor = "blue";
-let leftColor = "red";
+let rightColor = "lightblue";
+let leftColor = "pink";
 let ballColor;
 
 function setup() {
@@ -48,5 +48,20 @@ function draw() {
 }
 
 function mousePressed() {
-  circleX = 100;
+  speedX = speedX * -1;
+  rightColor = color(random(255), random(255), random(255));
+  leftColor = color(random(255), random(255), random(255));
+}
+
+function keyPressed() {
+  if (key === "S" || key === "s") {
+    speedX = 0;
+    speedY = 0;
+    circleX = 400;
+    circleY = 300;
+    size = 50;
+    sizeIncrement = 0;
+    rightColor = color(255, 255, 255);
+    leftColor = color(255, 255, 255);
+  }
 }
