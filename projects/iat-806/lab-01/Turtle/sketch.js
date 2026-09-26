@@ -6,11 +6,6 @@
 // You don't need to understand this file to use it. Read sketch.js first.
 // We come back to how classes like this are written in Week 4.
 
-function setup() {
-  const canvas = createCanvas(500, 500);
-  canvas.parent("sketch-holder");
-}
-
 class KardunTurtle {
   // x, y  — where the turtle starts
   // icon  — a p5.Image to draw as the turtle (optional)
