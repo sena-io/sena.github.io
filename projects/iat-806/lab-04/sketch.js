@@ -1,122 +1,78 @@
 let frames = [];
-let myAge = 10;
-let myName = "Alireza";
-let myStudentsAges = [];
-let numFrames = 8;
+let frames2 = [];
+let numFrames = 7;
 
-let firstName = "alireza";
-let lastName = "Karduni";
-
-let fullName = firstName + " " + lastName;
+let numCols = 8;
+let numRows = 6;
+let colWidth;
+let rowHeight;
+let colors = [];
+let speeds = [];
+let fairyX = 300;
 
 async function setup() {
+  //async: wait until images are uploaded!
   createCanvas(800, 420);
 
-  for (let i = 0; i < numFrames; i++) {
-    // let fileName = `dance_frames/dance${i}.png`;
-    let fileName = "dance_frames/fairy" + i + ".png";
+  for (let i = 0; i < numCols; i++) {
+    colors[i] = [];
+    speeds[i] = [];
+    for (let j = 0; j < numRows; j++) {
+      colors[i][j] = random(1, 255);
+      speeds[i][j] = random(1, 10);
+    }
 
-    frames.push(await loadImage(fileName));
+    colWidth = width / numCols;
+    rowHeight = height / numRows;
+
+    for (let i = 0; i < numFrames; i++) {
+      let fileName = `dance_frames/fairy_${i}.png`;
+      frames.push(await loadImage(fileName));
+    }
   }
 }
 
 function draw() {
   background(120);
   fill("black");
-  text(fullName, 100, 100);
 
-  let speed = 10;
-  let slowFrame = floor(frameCount / speed);
-  let index = slowFrame % frames.length;
-  text(index, 500, 160);
-  image(frames[index], 100, 100);
+  numCols = map(mouseX, 0, width, 1, 20);
+  text(numCols, 100, 100);
+
+  for (let p = 0; p < numCols; p++) {
+    fill(0, 100, 100);
+    // fill(0, random(1,250), random(0,250));
+    for (let j = 0; j < numRows; j++) {
+      rect(p * colWidth, j * rowHeight, colWidth, rowHeight);
+    }
+  }
+
+  let speeds = 10;
+  let imageWidth = 500;
+  let imageHeight = 400;
+
+  animate(frames, 10, 100, 100, 100);
+  animate(frames, 20, 200, 100, 200);
+  animate(frames, 50, 300, 100, 300);
 }
 
-// let frames = [];
-// let bgImg;
-// let numFrames = 7;
-// let sounds = [];
-// let soundIndex = 0;
-// let index = 0;
-// let fairyX = 100;
+function animate(frames, speed, xPosition, yPosition, imageWidth, imageHeight) {
+  let index = getFrameIndex(speed);
+  let currentFrame = frames[index];
+  let origWidth = currentFrame.width;
+  let origHeight = currentFrame.height;
+  if (imageWidth && !imageHeight) {
+    let scale = imageWidth / origWidth;
+    imageHeight = scale * origHeight;
+  }
 
-// async function setup() {
-//   createCanvas(800, 420);
+  text(origWidth + " " + origHeight, 300, 100);
+  image(currentFrame, xPosition, yPosition, imageWidth, imageHeight);
+}
 
-//   bgImg = await loadImage("background/background_village.jpg");
+function getFrameIndex(speed) {
+  let slowFrame = Math.floor(frameCount / speed);
+  let index = slowFrame % frames.length;
 
-//   for (let i = 0; i < numFrames; i++) {
-//     let fileName = `dance_frames/fairy_${i}.png`;
-//     frames.push(await loadImage(fileName));
-//   }
-
-//   for (let i = 0; i < 4; i++) {
-//     sounds.push(await loadSound("sounds/sound" + i + ".wav")); //loading the sound and automating path name
-//   }
-// }
-
-// function draw() {
-//   background(bgImg);
-//   fill("black");
-
-//   let speed = 10;
-//   let slowFrame = floor(frameCount / speed);
-//   let index = slowFrame % frames.length;
-//   //   text(index, 600, 160);
-
-//   if (frames[index]) {
-//     image(frames[index], fairyX, 130, 200, 180);
-//   }
-// }
-
-// // function mousePressed() {
-// //   if (sounds[soundIndex]==3){
-// //     image(frames[index], 400, 130, 200, 180);
-// //   }
-// //   else {
-// //   index = (index + 1) % frames.length;
-// //   userStartAudio();
-// //   sounds[soundIndex].play();
-// //   soundIndex = (soundIndex + 1) % sounds.length; //incrementing the sound index and looping back to 0 when it reaches the end of the array
-// //   }
-
-// // }
-
-// function mousePressed() {
-//   // 1. Always increment animation and start audio (moved OUT of the if/else)
-//   index = (index + 1) % frames.length;
-//   userStartAudio();
-//   // 2. Stop all sounds in the array to prevent overlapping
-//   for (let i = 0; i < sounds.length; i++) {
-//     sounds[i].stop();
-//   }
-//   // 3. Check if it is the third sound (index 2) to move the fairy
-//   if (soundIndex === 3) {
-//     fairyX = 500; // Move right for the third sound
-//   } else {
-//     fairyX = 100; // Stay in the normal position for all other sounds
-//   }
-//   sounds[soundIndex].play();
-//   soundIndex = (soundIndex + 1) % sounds.length;
-// }
-
-// // play music and make it stop and mouse pressed.
-
-// // 2. Stop and start the animation
-// function keyPressed() {
-//   if (key === " ") {
-//     // Find the index of the currently playing sound
-//     let playingIndex = soundIndex - 1;
-//     if (playingIndex < 0) {
-//       playingIndex = sounds.length - 1; // Wrap around if it goes below 0
-//     }
-
-//     if (isLooping()) {
-//       noLoop();
-//       sounds[playingIndex].pause(); // Pause the specific sound
-//     } else {
-//       loop();
-//       sounds[playingIndex].play(); // Resume that same sound
-//     }
-//   }
-// }
+  return index;
+}
