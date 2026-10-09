@@ -1,14 +1,13 @@
-let frames = [];
-let frames2 = [];
-let numFrames = 7;
+let frames = []; //arrays for putting images of the fairies
+let frames2 = []; //
+let numFrames = 7; //number of animations that will be called
 
-let numCols = 8;
-let numRows = 6;
-let colWidth;
-let rowHeight;
-let colors = [];
-let speeds = [];
-let fairyX = 300;
+let numCols = 13; // 8 columns
+let numRows = 10; // 6 rows
+let colWidth; // width of each box
+let rowHeight; // heigth of each box
+let colors = []; //arrays to assign random colors in each boxes
+let speeds = []; // arrays to assign different animation speed
 
 async function setup() {
   //async: wait until images are uploaded!
